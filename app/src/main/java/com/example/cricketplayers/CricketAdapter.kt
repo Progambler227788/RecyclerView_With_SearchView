@@ -2,6 +2,7 @@ package com.example.cricketplayers
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -25,8 +26,17 @@ class CricketAdapter (private var dataList : ArrayList<CricketData>,var context 
 
    override fun onBindViewHolder(holder: CricketAdapter.MyViewHolder, position: Int) {
       val currentBinding = holder.binding
+
       currentBinding.playerImage.setImageResource(dataList[position].imageId)
       currentBinding.playerName.text = dataList[position].name
+      currentBinding.playerDescription.text = dataList[position].description
+      val isExpandable = dataList[position].isExpandable
+      currentBinding.playerDescription.visibility = if(isExpandable) View.VISIBLE else View.GONE
+      currentBinding.constraintLayout.setOnClickListener {
+         dataList[position].isExpandable = !dataList[position].isExpandable
+         notifyItemChanged(position)
+      }
+
 
    }
 }

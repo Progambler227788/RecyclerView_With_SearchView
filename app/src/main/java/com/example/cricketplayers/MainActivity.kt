@@ -21,9 +21,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         list = ArrayList()
-        list.add(CricketData(R.drawable.babarazam,"Babar Azam"))
-        list.add(CricketData(R.drawable.virat_kohli,"Virat Kohli"))
-        list.add(CricketData(R.drawable.kane_mama,"Kane WilliamSon"))
+        list.add(CricketData(R.drawable.babarazam,"Babar Azam","Great batsman"))
+        list.add(CricketData(R.drawable.virat_kohli,"Virat Kohli","GOAT"))
+        list.add(CricketData(R.drawable.kane_mama,"Kane WilliamSon","Defensive"))
 
         adapter = CricketAdapter(list,this)
         binding.recyclerView.adapter = adapter
