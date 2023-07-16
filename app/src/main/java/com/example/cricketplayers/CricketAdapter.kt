@@ -59,6 +59,6 @@ class CricketAdapter (private var dataList : ArrayList<CricketData>,var context 
       if(payloads.isNotEmpty() && payloads[0]==0)
          holder.collapse()
       else
-      super.onBindViewHolder(holder, position, payloads)
+       super.onBindViewHolder(holder, position, payloads)
    }
 }

@@ -2,10 +2,19 @@ package com.example.cricketplayers
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cricketplayers.apis.ApiInterface
+import com.example.cricketplayers.apis.ApiUtilities
+import com.example.cricketplayers.constants.Constant
 import com.example.cricketplayers.databinding.ActivityMainBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Dispatcher
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -17,6 +26,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val matchApi = ApiUtilities.getInstance().create(ApiInterface::class.java)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val result = matchApi.getPlayers(Constant.API_KEY,Constant.PLAYER_ID)
+            val data = result.body()!!.data
+            if(data!=null){
+              list.add(CricketData(R.drawable.babarazam,data.name,"" +
+                      "Country : ${data.country}\nDate of Birth : ${data.country}\nBatting Style: ${data.battingStyle}\n" +
+                      "Bowling Style: ${data.bowlingStyle}\nBatting Style: ${data.battingStyle}"))
+
+                Log.i("Data","${result.body()!!.data.placeOfBirth}")
+            }
+            withContext(Dispatchers.Main){
+                adapter = CricketAdapter(list,this@MainActivity)
+                binding.recyclerView.adapter = adapter
+            }
+        }
+
+
         binding.recyclerView.setHasFixedSize(true)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
